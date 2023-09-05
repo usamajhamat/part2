@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import Filter from './Component/Filter.component'
 import PersonForm from './Component/PersonForm.component'
 import Person from './Component/Person.component'
@@ -13,6 +14,16 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber , setNewNumber] = useState('')
   const [searchName, setSearchName] = useState('')
+
+  useEffect(()=>{
+    axios.get('http://localhost:3001/persons')
+    .then(response=>{
+      setPersons(response.data)
+    })
+    .catch(error =>{
+      console.log('Error fetching data:', error)
+    })
+  },[])
   const addPerson = (event)=>{
     event.preventDefault()
     const personObject = {
